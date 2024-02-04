@@ -17,8 +17,9 @@ def close_storage(error):
 
 
 @app.errorhandler(404)
-def page_notfound(error):
-    return make_response(jsonify({'error': 'Not found'}), 404)
+def page_not_found(error):
+    if type(error).__name__ == "NotFound":
+        return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":
