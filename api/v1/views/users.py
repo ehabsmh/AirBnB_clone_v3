@@ -57,12 +57,8 @@ def delete_user(user_id):
 
 @app_views.route('/users', strict_slashes=False,
                  methods=['POST'])
-def create_user(user_id):
+def create_user():
     """Creates a user"""
-    user = storage.get(User, user_id)
-
-    if not user:
-        abort(404)
 
     requested_user = request.get_json()
 
@@ -75,7 +71,7 @@ def create_user(user_id):
     if 'password' not in requested_user:
         return make_response(jsonify({"error": "Missing password"}), 400)
 
-    user = user(**requested_user)
+    user = User(**requested_user)
     user.save()
 
     return jsonify(user.to_dict()), 201
@@ -83,27 +79,27 @@ def create_user(user_id):
 
 # _______________________________________________________________________________________
 
-# @app_views.route('/cities/<string:city_id>', strict_slashes=False,
-#                  methods=['PUT'])
-# def update_city(city_id):
-#     """Updates a city by id"""
-#     city = storage.get(City, city_id)
+@app_views.route('/users/<string:user_id>', strict_slashes=False,
+                 methods=['PUT'])
+def update_user(user_id):
+    """Updates a user by id"""
+    user = storage.get(User, user_id)
 
-#     if not city:
-#         abort(404)
+    if not user:
+        abort(404)
 
-#     requested_city = request.get_json()
+    requested_user = request.get_json()
 
-#     if not requested_city:
-#         return make_response(jsonify({"error": "Not a JSON"}), 400)
+    if not requested_user:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
-#     ignored_keys = ["id", "state_id", "created_at", "updated_at"]
+    ignored_keys = ["id", "email", "created_at", "updated_at"]
 
-#     for k, v in requested_city.items():
-#         if k in ignored_keys:
-#             continue
-#         else:
-#             setattr(city, k, v)
+    for k, v in requested_user.items():
+        if k in ignored_keys:
+            continue
+        else:
+            setattr(user, k, v)
 
-#     city.save()
-#     return jsonify(city.to_dict())
+    user.save()
+    return jsonify(user.to_dict())
