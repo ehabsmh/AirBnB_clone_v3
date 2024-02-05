@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""handles all default RESTFul API actions for State objects"""
-
+''' blueprint for state '''
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage
@@ -10,10 +9,9 @@ from models import State
 @app_views.route('/states', methods=["GET"], strict_slashes=False)
 @app_views.route('/states/<state_id>', methods=["GET"], strict_slashes=False)
 def state(state_id=None):
-    """ retrieves a list of all states"""
+    ''' retrieves a list of all states'''
     if state_id is None:
-        the_states = [value.to_dict()
-                      for value in storage.all("State").values()]
+        the_states = [v.to_dict() for v in storage.all("State").values()]
         return jsonify(the_states)
 
     the_states = storage.get("State", state_id)
@@ -26,7 +24,7 @@ def state(state_id=None):
 
 @app_views.route('/states/<s_id>', methods=["DELETE"], strict_slashes=False)
 def delete_states(s_id):
-    """Deletes a specific state based on its id"""
+    '''Deletes an specific state based on its id'''
 
     the_state = storage.get("State", s_id)
     if the_state is None:
@@ -40,7 +38,6 @@ def delete_states(s_id):
 
 @app_views.route('/states', methods=["POST"], strict_slashes=False)
 def post_states():
-    """Updates a state"""
 
     requested_state = request.get_json()
     if requested_state is None:
@@ -59,7 +56,7 @@ def post_states():
 
 @app_views.route('/states/<state_id>', methods=["PUT"], strict_slashes=False)
 def update_states(state_id):
-    """Updates a state"""
+    '''Updates a state'''
 
     requested_state = request.get_json()
     if requested_state is None:
@@ -70,9 +67,9 @@ def update_states(state_id):
         abort(404)
 
     not_allowed = ["id", "created_at", "updated_at"]
-    for k, v in requested_state.items():
-        if k not in not_allowed:
-            setattr(the_state, k, v)
+    for key, value in requested_state.items():
+        if key not in not_allowed:
+            setattr(the_state, key, value)
 
     the_state.save()
     return jsonify(the_state.to_dict())
