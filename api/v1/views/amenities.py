@@ -23,6 +23,8 @@ def amenities(am_id=None):
     return jsonify(amenities.to_dict())
 
 
+# _______________________________________________________________________________________
+
 @app_views.route('/amenities/<string:am_id>', methods=["DELETE"],
                  strict_slashes=False)
 def delete_amenity(am_id):
@@ -38,6 +40,8 @@ def delete_amenity(am_id):
 
     return jsonify({})
 
+
+# _______________________________________________________________________________________
 
 @app_views.route('/amenities', methods=["POST"], strict_slashes=False)
 def create_amenity():
@@ -58,6 +62,8 @@ def create_amenity():
 
     return (jsonify(new_amenity.to_dict()), 201)
 
+
+# _______________________________________________________________________________________
 
 @app_views.route('/amenities/<string:am_id>', methods=["PUT"],
                  strict_slashes=False)
