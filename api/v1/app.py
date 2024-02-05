@@ -19,6 +19,8 @@ def close_storage(error):
     storage.close()
 
 
+# _______________________________________________________________________________________
+
 @app.errorhandler(404)
 def page_not_found(error):
     if type(error).__name__ == "NotFound":
