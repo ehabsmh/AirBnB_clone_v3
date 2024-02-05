@@ -7,7 +7,8 @@ from models.amenity import Amenity
 
 
 @app_views.route('/amenities/', methods=["GET"], strict_slashes=False)
-@app_views.route('/amenities/<string:a_id>', methods=["GET"], strict_slashes=False)
+@app_views.route('/amenities/<string:a_id>', methods=["GET"],
+                 strict_slashes=False)
 def amenities(a_id=None):
     """Retrieves a list of all amenities"""
 
