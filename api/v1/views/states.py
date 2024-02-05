@@ -21,8 +21,6 @@ def state(state_id=None):
     abort(404)
 
 
-# _______________________________________________________________________________________
-
 @app_views.route('/states/<s_id>', methods=["DELETE"], strict_slashes=False)
 def delete_states(s_id):
     """Deletes a specific state based on its id"""
@@ -34,8 +32,6 @@ def delete_states(s_id):
     storage.save()
     return (jsonify({}))
 
-
-# _______________________________________________________________________________________
 
 @app_views.route('/states', methods=["POST"], strict_slashes=False)
 def post_states():
@@ -53,8 +49,6 @@ def post_states():
 
     return (jsonify(new_state.to_dict()), 201)
 
-
-# _______________________________________________________________________________________
 
 @app_views.route('/states/<state_id>', methods=["PUT"], strict_slashes=False)
 def update_states(state_id):
