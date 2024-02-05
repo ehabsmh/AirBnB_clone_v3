@@ -81,5 +81,6 @@ class FileStorage:
             If cls is None then counts all objs
         """
         if cls:
-            arg = str(cls)
-        return (len(self.all(arg)))
+            return (len(self.all(str(cls))))
+        else:
+            return (len(self.all()))
