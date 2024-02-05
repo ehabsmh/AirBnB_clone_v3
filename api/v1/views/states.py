@@ -25,7 +25,7 @@ def state(state_id=None):
 
 @app_views.route('/states/<s_id>', methods=["DELETE"], strict_slashes=False)
 def delete_states(s_id):
-    """Deletes an specific state based on its id"""
+    """Deletes a specific state based on its id"""
 
     the_state = storage.get("State", s_id)
     if the_state is None:
@@ -39,6 +39,7 @@ def delete_states(s_id):
 
 @app_views.route('/states', methods=["POST"], strict_slashes=False)
 def post_states():
+    """Updates a state"""
 
     requested_state = request.get_json()
     if requested_state is None:
