@@ -2,13 +2,13 @@
 """View for City objects that handles all default RESTful API actions"""
 
 from api.v1.views import app_views
+from flask import jsonify, abort, request, make_response
 from models import storage
 from models.state import State
 from models.city import City
-from flask import jsonify, abort, request, make_response
 
 
-@app_views.route('/states/<state_id>/cities', strict_slashes=False,
+@app_views.route('/states/<string:state_id>/cities', strict_slashes=False,
                  methods=['GET'])
 def cities_by_state(state_id):
     """Gets cities of a state by state id"""
@@ -29,7 +29,7 @@ def cities_by_state(state_id):
 
 # _______________________________________________________________________________________
 
-@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET'])
+@app_views.route('/cities/<string:city_id>', strict_slashes=False, methods=['GET'])
 def city_by_id(city_id):
     """Gets city by id"""
 
@@ -42,7 +42,7 @@ def city_by_id(city_id):
 
 # _______________________________________________________________________________________
 
-@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['DELETE'])
+@app_views.route('/cities/<string:city_id>', strict_slashes=False, methods=['DELETE'])
 def delete_city(city_id):
     """Deletes city by id"""
     city = storage.get(City, city_id)
@@ -58,7 +58,7 @@ def delete_city(city_id):
 
 # _______________________________________________________________________________________
 
-@app_views.route('/states/<state_id>/cities', strict_slashes=False,
+@app_views.route('/states/<string:state_id>/cities', strict_slashes=False,
                  methods=['POST'])
 def create_city(state_id):
     """Creates a city for a state by id"""
@@ -84,7 +84,7 @@ def create_city(state_id):
 
 # _______________________________________________________________________________________
 
-@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['PUT'])
+@app_views.route('/cities/<string:city_id>', strict_slashes=False, methods=['PUT'])
 def update_city(city_id):
     """Updates a city by id"""
     city = storage.get(City, city_id)
