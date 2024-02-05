@@ -6,20 +6,20 @@ from models import storage
 from models import Amenity
 
 
-@app_views.route('/amenities/', methods=["GET"], strict_slashes=False)
-@app_views.route('/amenities/<string:a_id>', methods=["GET"], strict_slashes=False)
-def amenities(a_id=None):
-    """Retrieves a list of all amenities"""
+# @app_views.route('/amenities/', methods=["GET"], strict_slashes=False)
+# @app_views.route('/amenities/<string:a_id>', methods=["GET"], strict_slashes=False)
+# def amenities(a_id=None):
+#     """Retrieves a list of all amenities"""
 
-    if a_id is None:
-        amenities = [v.to_dict() for v in storage.all(Amenity).values()]
-        return jsonify(amenities)
+#     if a_id is None:
+#         amenities = [v.to_dict() for v in storage.all(Amenity).values()]
+#         return jsonify(amenities)
 
-    amenities = storage.get(Amenity, a_id)
-    if amenities is None:
-        abort(404)
+#     amenities = storage.get(Amenity, a_id)
+#     if amenities is None:
+#         abort(404)
 
-    return jsonify(amenities.to_dict())
+#     return jsonify(amenities.to_dict())
 
 
 # @app_views.route('/amenities/<string:a_id>', methods=["DELETE"],
