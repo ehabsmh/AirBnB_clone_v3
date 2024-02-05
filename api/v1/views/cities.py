@@ -29,7 +29,8 @@ def cities_by_state(state_id):
 
 # _______________________________________________________________________________________
 
-@app_views.route('/cities/<string:city_id>', strict_slashes=False, methods=['GET'])
+@app_views.route('/cities/<string:city_id>', strict_slashes=False,
+                 methods=['GET'])
 def city_by_id(city_id):
     """Gets city by id"""
 
@@ -42,7 +43,8 @@ def city_by_id(city_id):
 
 # _______________________________________________________________________________________
 
-@app_views.route('/cities/<string:city_id>', strict_slashes=False, methods=['DELETE'])
+@app_views.route('/cities/<string:city_id>', strict_slashes=False,
+                 methods=['DELETE'])
 def delete_city(city_id):
     """Deletes city by id"""
     city = storage.get(City, city_id)
@@ -50,10 +52,10 @@ def delete_city(city_id):
     if not city:
         abort(404)
 
-    storage.delete(city)
+    city.delete()
     storage.save()
 
-    return jsonify({}), 200
+    return jsonify({})
 
 
 # _______________________________________________________________________________________
@@ -70,7 +72,7 @@ def create_city(state_id):
     requested_city = request.get_json()
 
     if not request.get_json():
-        return make_response(jsonify({"error": "Not a json"}), 400)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     if 'name' not in requested_city:
         return make_response(jsonify({"error": "Missing name"}), 400)
@@ -84,7 +86,8 @@ def create_city(state_id):
 
 # _______________________________________________________________________________________
 
-@app_views.route('/cities/<string:city_id>', strict_slashes=False, methods=['PUT'])
+@app_views.route('/cities/<string:city_id>', strict_slashes=False,
+                 methods=['PUT'])
 def update_city(city_id):
     """Updates a city by id"""
     city = storage.get(City, city_id)
@@ -94,8 +97,8 @@ def update_city(city_id):
 
     requested_city = request.get_json()
 
-    if not request.get_json():
-        return make_response(jsonify({"error": "Not a json"}), 400)
+    if not requested_city:
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     ignored_keys = ["id", "state_id", "created_at", "updated_at"]
 
