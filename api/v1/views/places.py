@@ -23,14 +23,15 @@ def city_places(city_id):
 
 # _______________________________________________________________________________________
 
-@app_views.route("/places/<string:place_id>", methods=["GET"], strict_slashes=False)
+@app_views.route("/places/<string:place_id>", methods=["GET"],
+                 strict_slashes=False)
 def place_retriever(place_id):
     """Retrieves places based on their id"""
 
     the_places = storage.get(Place, place_id)
-    if the_places is None:
-        abort(404)
-    return (jsonify(the_places.to_dict()), 200)
+    if the_places:
+        return (jsonify(the_places.to_dict()), 200)
+    abort(404)
 
 
 # _______________________________________________________________________________________
