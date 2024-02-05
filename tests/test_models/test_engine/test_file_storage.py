@@ -18,6 +18,7 @@ import json
 import os
 import pep8
 import unittest
+
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
@@ -25,6 +26,7 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 
 class TestFileStorageDocs(unittest.TestCase):
     """Tests to check the documentation and style of FileStorage class"""
+
     @classmethod
     def setUpClass(cls):
         """Set up for the doc tests"""
@@ -70,6 +72,7 @@ test_file_storage.py'])
 
 class TestFileStorage(unittest.TestCase):
     """Test the FileStorage class"""
+
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
         """Test that all returns the FileStorage.__objects attr"""
@@ -113,3 +116,32 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing DB storage")
+    def test_get(self):
+        """ Testing without id"""
+        get_state = models.storage.get('State', 'kjhfxjr45')
+        self.assertEqual(get_state, None)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing DB storage")
+    def test_get_with_id(self):
+        """ Testing with valid id"""
+        state = State(name="Texas")
+        state.save()
+        state_id = state.id
+        get_state = models.storage.get('State', state_id)
+        self.assertEqual(state, get_state)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing DB storage")
+    def test_count(self):
+        """Testing the count method"""
+        count = models.storage.count()
+        self.assertEqual(len(models.storage.all()), count)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing DB storage")
+    def test_count_by_cls(self):
+        """Testing the count method
+            with class name given"""
+        all_obj = models.storage.all('State')
+        count = models.storage.count('State')
+        self.assertEqual(len(all_obj), count)
