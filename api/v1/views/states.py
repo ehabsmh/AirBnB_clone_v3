@@ -29,10 +29,13 @@ def delete_states(s_id):
     """Deletes a specific state based on its id"""
 
     the_state = storage.get(State, s_id)
+
     if the_state is None:
         abort(404)
+
     the_state.delete(the_state)
     storage.save()
+
     return (jsonify({}))
 
 
@@ -41,9 +44,12 @@ def post_states():
     """Updates a state"""
 
     requested_state = request.get_json()
+
     if requested_state is None:
         return (jsonify({"error": "Not a JSON"}), 400)
+
     name = requested_state.get("name")
+
     if name is None:
         return (jsonify({"error": "Missing name"}), 400)
 
@@ -53,17 +59,20 @@ def post_states():
     return (jsonify(new_state.to_dict()), 201)
 
 
-@app_views.route('/states/<state_id>', methods=["PUT"], strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=["PUT"],
+                 strict_slashes=False)
 def update_states(state_id):
     """Updates a state"""
 
-    requested_state = request.get_json()
-    if requested_state is None:
-        return (jsonify({"error": "Not a JSON"}), 400)
-
     the_state = storage.get(State, state_id)
+
     if the_state is None:
         abort(404)
+
+    requested_state = request.get_json()
+
+    if requested_state is None:
+        return (jsonify({"error": "Not a JSON"}), 400)
 
     not_allowed = ["id", "created_at", "updated_at"]
     for k, v in requested_state.items():
