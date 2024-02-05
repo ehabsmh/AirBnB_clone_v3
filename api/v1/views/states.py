@@ -23,6 +23,8 @@ def state(state_id=None):
     abort(404)
 
 
+# _______________________________________________________________________________________
+
 @app_views.route('/states/<string:s_id>', methods=["DELETE"],
                  strict_slashes=False)
 def delete_states(s_id):
@@ -38,6 +40,8 @@ def delete_states(s_id):
 
     return (jsonify({}))
 
+
+# _______________________________________________________________________________________
 
 @app_views.route('/states', methods=["POST"], strict_slashes=False)
 def post_states():
@@ -58,6 +62,8 @@ def post_states():
 
     return (jsonify(new_state.to_dict()), 201)
 
+
+# _______________________________________________________________________________________
 
 @app_views.route('/states/<string:state_id>', methods=["PUT"],
                  strict_slashes=False)
