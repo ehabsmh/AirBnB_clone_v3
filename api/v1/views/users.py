@@ -14,12 +14,12 @@ from models.user import User
 def get_users():
     """Gets users"""
 
-    users = storage.all(User)
+    users_objects = storage.all(User)
 
-    # Convert each city object to dictionary
-    users = [user.to_dict() for user in users]
+    # Convert each user object to dictionary
+    users_dicts = [v.to_dict() for v in users_objects.values()]
 
-    return jsonify(users)
+    return jsonify(users_dicts)
 
 
 # _______________________________________________________________________________________
