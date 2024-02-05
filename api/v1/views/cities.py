@@ -71,7 +71,7 @@ def create_city(state_id):
 
     requested_city = request.get_json()
 
-    if not request.get_json():
+    if not requested_city:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
 
     if 'name' not in requested_city:
