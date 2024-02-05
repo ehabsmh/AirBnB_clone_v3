@@ -7,28 +7,29 @@ from models.state import State
 
 
 @app_views.route('/states', methods=["GET"], strict_slashes=False)
-@app_views.route('/states/<state_id>', methods=["GET"], strict_slashes=False)
+@app_views.route('/states/<string:state_id>', methods=["GET"], strict_slashes=False)
 def state(state_id=None):
     """ retrieves a list of all states"""
     if state_id is None:
         the_states = [value.to_dict()
-                      for value in storage.all("State").values()]
+                      for value in storage.all(State).values()]
         return jsonify(the_states)
 
     the_states = storage.get("State", state_id)
     if the_states is not None:
         return jsonify(the_states.to_dict())
+
     abort(404)
 
 
-@app_views.route('/states/<s_id>', methods=["DELETE"], strict_slashes=False)
+@app_views.route('/states/<string:s_id>', methods=["DELETE"], strict_slashes=False)
 def delete_states(s_id):
     """Deletes a specific state based on its id"""
 
     the_state = storage.get("State", s_id)
     if the_state is None:
         abort(404)
-    storage.delete(the_state)
+    the_state.delete(the_state)
     storage.save()
     return (jsonify({}))
 
