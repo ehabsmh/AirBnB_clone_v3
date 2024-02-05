@@ -14,8 +14,7 @@ def amenities(a_id=None):
     """ retrieves a list of all amenities"""
 
     if a_id is None:
-        my_amenities = storage.all("Amenity")
-        amenities = [value.to_dict() for key, value in my_amenities.items()]
+        amenities = [v.to_dict() for v in storage.all("Amenity").values()]
         return jsonify(amenities)
 
     amenities = storage.get("Amenity", a_id)
@@ -41,10 +40,10 @@ def delete_amenity(a_id):
 def create_amenity():
     """ Creates an Amenity """
 
-    content = request.get_json()
-    if content is None:
+    req_amenity = request.get_json()
+    if req_amenity is None:
         return (jsonify({"error": "Not a JSON"}), 400)
-    name = content.get("name")
+    name = req_amenity.get("name")
     if name is None:
         return (jsonify({"error": "Missing name"}), 400)
 
@@ -58,8 +57,8 @@ def create_amenity():
 def update_amenity(a_id):
     """ updates an amenity """
 
-    content = request.get_json()
-    if content is None:
+    req_amenity = request.get_json()
+    if req_amenity is None:
         return (jsonify({"error": "Not a JSON"}), 400)
 
     my_amenity = storage.get("Amenity", a_id)
@@ -67,9 +66,9 @@ def update_amenity(a_id):
         abort(404)
 
     not_allowed = ["id", "created_at", "updated_at"]
-    for key, value in content.items():
-        if key not in not_allowed:
-            setattr(my_amenity, key, value)
+    for k, v in req_amenity.items():
+        if k not in not_allowed:
+            setattr(my_amenity, k, v)
 
     my_amenity.save()
     return jsonify(my_amenity.to_dict())
