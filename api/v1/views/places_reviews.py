@@ -20,6 +20,7 @@ def get_reviews_place(place_id):
         abort(404)
 
     reviews = place.reviews
+    print(reviews)
 
     # Convert each review object to dictionary
     reviews = [review.to_dict() for review in reviews]
@@ -68,7 +69,7 @@ def delete_review(review_id):
 def create_review(place_id):
     """Creates a review on a place"""
     place = storage.get(Place, place_id)
-
+    print(place)
     if not place:
         abort(404)
 
@@ -83,13 +84,12 @@ def create_review(place_id):
     if 'text' not in requested_review:
         return make_response(jsonify({"error": "Missing text"}), 400)
 
-    users = storage.all(User)
-    user_id = requested_review.get("user_id")
-    user_key = f"{User.__name__}.{user_id}"
-
-    if user_key not in users:
+    user = storage.get(User, requested_review['user_id'])
+    print(user)
+    if not user:
         abort(404)
 
+    requested_review['place_id'] = place_id
     review = Review(**requested_review)
     review.save()
 
